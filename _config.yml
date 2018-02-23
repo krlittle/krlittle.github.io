@@ -91,8 +91,8 @@ analytics:
 # Site Author
 author:
   name             : "Ken Little"
-  avatar           : https://avatars3.githubusercontent.com/u/8117061?s=460&v=4
-  bio              : "I am an amazing person."
+  avatar           : "https://avatars3.githubusercontent.com/u/8117061?s=460&v=4"
+  bio              : "Professionally, I'm a developer.  Personally, I'm a person."
   location         : 
   email            :
   uri              :
@@ -103,16 +103,16 @@ author:
   flickr           :
   facebook         :
   foursquare       :
-  github           : krlittle
+  github           : "krlittle"
   gitlab           :
   google_plus      :
   keybase          :
   instagram        :
   lastfm           :
-  linkedin         : ken-little-92114586
+  linkedin         : "ken-little-92114586"
   pinterest        :
   soundcloud       :
-  stackoverflow    : 1362257/krlittle
+  stackoverflow    : "1362257/krlittle"
   steam            : # "steamId" (the last part of your profile url, e.g. https://steamcommunity.com/id/steamId/)
   tumblr           :
   twitter          :
