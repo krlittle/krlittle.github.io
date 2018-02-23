@@ -12,10 +12,10 @@ locale                   : "en-US"
 title                    : "myHub"
 title_separator          : "-"
 name                     : "Ken Little"
-description              : "A dabbler's sandbox"
-url                      : "https://krlittle.github.io"
-baseurl                  : "/blog"
-repository               : "krlittle/krlittle.github.io"
+description              : "An amazing website."
+url                      : # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
+baseurl                  : # the subpath of your site, e.g. "/blog"
+repository               : # GitHub username/repo-name e.g. "mmistakes/minimal-mistakes"
 teaser                   : # path of fallback teaser image, e.g. "/assets/images/500x300.png"
 # breadcrumbs            : false # true, false (default)
 words_per_minute         : 200
@@ -90,29 +90,29 @@ analytics:
 
 # Site Author
 author:
-  name             : "Ken Little"
-  avatar           : "https://avatars3.githubusercontent.com/u/8117061?s=460&v=4"
-  bio              : "Professionally, I'm a developer.  Personally, I'm a person."
+  name             : "Your Name"
+  avatar           : # path of avatar image, e.g. "/assets/images/bio-photo.jpg"
+  bio              : "I am an amazing person."
   location         : "Somewhere"
   email            :
   uri              :
   home             : # null (default), "absolute or relative url to link to author home"
-  bitbucket        : "krlittle"
+  bitbucket        :
   codepen          :
   dribbble         :
   flickr           :
   facebook         :
   foursquare       :
-  github           : "krlittle"
+  github           :
   gitlab           :
   google_plus      :
   keybase          :
   instagram        :
   lastfm           :
-  linkedin         : "ken-little-92114586"
+  linkedin         : # "john-doe-12345678" (the last part of your profile url, e.g. https://www.linkedin.com/in/john-doe-12345678)
   pinterest        :
   soundcloud       :
-  stackoverflow    : "1362257/krlittle"
+  stackoverflow    : # "123456/username" (the last part of your profile url, e.g. https://stackoverflow.com/users/123456/username)
   steam            : # "steamId" (the last part of your profile url, e.g. https://steamcommunity.com/id/steamId/)
   tumblr           :
   twitter          :
