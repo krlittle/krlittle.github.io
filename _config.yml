@@ -9,13 +9,13 @@ minimal_mistakes_skin    : "dark" # "air", "aqua", "contrast", "dark", "dirt", "
 
 # Site Settings
 locale                   : "en-US"
-title                    : "myHub"
+title                    : "This is me"
 title_separator          : "-"
 name                     : "Ken Little"
-description              : "A dabbler's sandbox"
-url                      : # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
+description              : "A blog by Ken Little using a flexible Jekyll theme with a minimalist aesthetic."
+url                      : "https://krlittle.github.io/"
 baseurl                  : # the subpath of your site, e.g. "/blog"
-repository               : # GitHub username/repo-name e.g. "mmistakes/minimal-mistakes"
+repository               : "krlittle/krlittle.github.io"
 teaser                   : # path of fallback teaser image, e.g. "/assets/images/500x300.png"
 # breadcrumbs            : false # true, false (default)
 words_per_minute         : 200
@@ -92,7 +92,7 @@ analytics:
 author:
   name             : "Ken Little"
   avatar           : # path of avatar image, e.g. "/assets/images/bio-photo.jpg"
-  bio              : "I make things with code"
+  bio              : "A software engineer who loves to share food & play games with friends & family"
   location         : 
   email            :
   uri              :
