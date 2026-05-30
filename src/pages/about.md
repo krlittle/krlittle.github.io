@@ -11,5 +11,3 @@ Outside of work I'm most likely in the kitchen cooking something new, or around 
 
 - [GitHub — krlittle](https://github.com/krlittle)
 - [LinkedIn](https://www.linkedin.com/in/ken-little-92114586)
-- [Stack Overflow](https://stackoverflow.com/users/1362257/krlittle)
-- [Bitbucket — krlittle](https://bitbucket.org/krlittle)
