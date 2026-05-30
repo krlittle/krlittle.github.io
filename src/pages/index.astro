@@ -1,223 +1,76 @@
 ---
-import BaseHead from '../components/BaseHead.astro';
-import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
-import FormattedDate from '../components/FormattedDate.astro';
-import { SITE_TITLE, SITE_DESCRIPTION, GITHUB_URL, LINKEDIN_URL, STACKOVERFLOW_URL } from '../consts';
-import { getCollection } from 'astro:content';
+import Layout from '~/layouts/Layout.astro'
+import { getSortedPosts } from '~/utils'
+import { getCollection, render } from 'astro:content'
+import PostPreview from '~/components/PostPreview.astro'
+import Pagination from '~/components/Pagination.astro'
+import BlockHeader from '~/components/BlockHeader.astro'
+import HomeBanner from '~/components/HomeBanner.astro'
+import siteConfig from '~/site.config'
+import TagsSection from '~/components/TagsSection.astro'
+import SeriesSection from '~/components/SeriesSection.astro'
 
-const posts = (await getCollection('blog'))
-	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
-	.slice(0, 5);
+const home = await getCollection('home')
+let HomeContent
+let homeAvatarImage
+let homeGithubCalendar
+if (home.length > 0) {
+  const homeEntry = home[0]
+  const { Content } = await render(homeEntry)
+  HomeContent = Content
+  homeAvatarImage = homeEntry.data.avatarImage
+  homeGithubCalendar = homeEntry.data.githubCalendar
+}
+const sortedPosts = await getSortedPosts()
+const postsHaveTags = sortedPosts.some(
+  (post) => post.data.tags && post.data.tags.length > 0,
+)
 
-const allProjects = await getCollection('projects');
-const featuredProjects = allProjects
-	.filter((p) => p.data.featured)
-	.sort((a, b) => a.data.order - b.data.order);
+const postsHaveSeries = sortedPosts.some((post) => post.data.series)
 ---
 
-<!doctype html>
-<html lang="en">
-	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-	</head>
-	<body>
-		<Header />
-		<main>
-			<section class="hero">
-				<h1>Hi, I'm Ken Little</h1>
-				<p class="tagline">{SITE_DESCRIPTION}</p>
-				<div class="hero-links">
-					<a href={GITHUB_URL} target="_blank" rel="noopener noreferrer" class="hero-link">GitHub</a>
-					<a href={LINKEDIN_URL} target="_blank" rel="noopener noreferrer" class="hero-link">LinkedIn</a>
-					<a href={STACKOVERFLOW_URL} target="_blank" rel="noopener noreferrer" class="hero-link">Stack Overflow</a>
-				</div>
-			</section>
+<Layout>
+  {
+    HomeContent && (
+      <HomeBanner avatarImage={homeAvatarImage} githubCalendar={homeGithubCalendar}>
+        <HomeContent />
+      </HomeBanner>
+    )
+  }
+  {
+    postsHaveSeries && (
+      <section>
+        <BlockHeader>Series</BlockHeader>
+        <SeriesSection posts={sortedPosts} />
+      </section>
+    )
+  }
+  {
+    postsHaveTags && (
+      <section>
+        <BlockHeader>Tags</BlockHeader>
+        <TagsSection posts={sortedPosts} />
+      </section>
+    )
+  }
+  {
+    sortedPosts.length > 0 && (
+      <section>
+        <BlockHeader>Latest Posts</BlockHeader>
+        {sortedPosts
+          .reverse()
+          .slice(0, Math.floor(siteConfig.pageSize / 2))
+          .map((post) => (
+            <PostPreview post={post} />
+          ))}
+        <Pagination nextLink="/posts" nextText="Archive" />
+      </section>
+    )
+  }
+</Layout>
 
-			{
-				posts.length > 0 && (
-					<section class="recent-posts">
-						<h2>Recent Posts</h2>
-						<ul>
-							{posts.map((post) => (
-								<li>
-									<a href={`/blog/${post.id}/`}>
-										<span class="post-title">{post.data.title}</span>
-										<span class="post-date">
-											<FormattedDate date={post.data.pubDate} />
-										</span>
-									</a>
-								</li>
-							))}
-						</ul>
-						<a href="/blog" class="view-all">All posts →</a>
-					</section>
-				)
-			}
-
-			{
-				featuredProjects.length > 0 && (
-					<section class="featured-projects">
-						<h2>Projects</h2>
-						<div class="projects-grid">
-							{featuredProjects.map((project) => (
-								<div class="project-card">
-									<h3>{project.data.title}</h3>
-									<p>{project.data.description}</p>
-									<div class="tech-tags">
-										{project.data.tech.map((t) => (
-											<span class="tag">{t}</span>
-										))}
-									</div>
-									<div class="project-links">
-										{project.data.github && (
-											<a href={project.data.github} target="_blank" rel="noopener noreferrer">
-												GitHub
-											</a>
-										)}
-										{project.data.url && (
-											<a href={project.data.url} target="_blank" rel="noopener noreferrer">
-												Live
-											</a>
-										)}
-									</div>
-								</div>
-							))}
-						</div>
-						<a href="/projects" class="view-all">All projects →</a>
-					</section>
-				)
-			}
-		</main>
-		<Footer />
-	</body>
-</html>
-
-<style>
-	.hero {
-		padding: 3em 0 2em;
-		border-bottom: 1px solid rgba(var(--gray), 15%);
-		margin-bottom: 2em;
-	}
-	.hero h1 {
-		font-size: 2.5em;
-		margin-bottom: 0.3em;
-	}
-	.tagline {
-		color: rgb(var(--gray));
-		font-size: 1.1em;
-		margin-bottom: 1.5em;
-	}
-	.hero-links {
-		display: flex;
-		gap: 0.75em;
-		flex-wrap: wrap;
-	}
-	.hero-link {
-		padding: 0.4em 1em;
-		border: 1px solid rgba(var(--gray), 30%);
-		border-radius: 6px;
-		font-size: 0.9em;
-		text-decoration: none;
-		color: rgb(var(--gray-dark));
-		transition: border-color 0.15s, color 0.15s;
-	}
-	.hero-link:hover {
-		border-color: var(--accent);
-		color: var(--accent);
-	}
-
-	.recent-posts,
-	.featured-projects {
-		margin-bottom: 3em;
-	}
-	.recent-posts h2,
-	.featured-projects h2 {
-		font-size: 1.2em;
-		text-transform: uppercase;
-		letter-spacing: 0.05em;
-		color: rgb(var(--gray));
-		margin-bottom: 1em;
-	}
-	.recent-posts ul {
-		list-style: none;
-		padding: 0;
-		margin: 0 0 1em;
-	}
-	.recent-posts ul li {
-		border-bottom: 1px solid rgba(var(--gray), 15%);
-	}
-	.recent-posts ul li a {
-		display: flex;
-		justify-content: space-between;
-		align-items: baseline;
-		gap: 1em;
-		padding: 0.6em 0;
-		text-decoration: none;
-		color: rgb(var(--gray-dark));
-		transition: color 0.15s;
-	}
-	.recent-posts ul li a:hover {
-		color: var(--accent);
-	}
-	.post-date {
-		font-size: 0.85em;
-		color: rgb(var(--gray));
-		white-space: nowrap;
-		flex-shrink: 0;
-	}
-	.recent-posts ul li a:hover .post-date {
-		color: inherit;
-	}
-
-	.view-all {
-		font-size: 0.9em;
-		color: rgb(var(--gray));
-		text-decoration: none;
-	}
-	.view-all:hover {
-		color: var(--accent);
-	}
-
-	.projects-grid {
-		display: grid;
-		grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-		gap: 1em;
-		margin-bottom: 1em;
-	}
-	.project-card {
-		padding: 1.25em;
-		border: 1px solid rgba(var(--gray), 20%);
-		border-radius: 8px;
-		background: rgba(var(--gray-light), 50%);
-	}
-	.project-card h3 {
-		font-size: 1.1em;
-		margin-bottom: 0.4em;
-	}
-	.project-card p {
-		font-size: 0.9em;
-		color: rgb(var(--gray));
-		margin-bottom: 0.75em;
-	}
-	.tech-tags {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 0.4em;
-		margin-bottom: 0.75em;
-	}
-	.tag {
-		font-size: 0.75em;
-		padding: 0.2em 0.5em;
-		border-radius: 4px;
-		background: rgba(var(--gray), 15%);
-		color: rgb(var(--gray));
-	}
-	.project-links {
-		display: flex;
-		gap: 0.75em;
-	}
-	.project-links a {
-		font-size: 0.85em;
-	}
+<style is:global>
+  a.heading-anchor {
+    display: none !important;
+  }
 </style>
